@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react"
-import { StyleSheet, View, Text, FlatList } from "react-native"
+import { StyleSheet, View, Text, FlatList, Image } from "react-native"
 
 import { getPokemons } from "./network/ApiRequest"
+import { mapperPokemon } from "./utils/Mapper"
 
 export default function HomeListScreen()
 {
@@ -9,7 +10,7 @@ export default function HomeListScreen()
 
     useEffect(() => {
         getPokemons(apiData => {
-            setData(apiData.results)
+            setData(mapperPokemon(apiData.results))
         })
     })    
 
@@ -17,11 +18,12 @@ export default function HomeListScreen()
         <FlatList
             style={styles.container}
             data={data}
-            keyExtractor={item => item.name}
+            keyExtractor={item => item.id}
             renderItem={({item}) => {
                 return (
                     <View style={styles.item}>
-                        <Text>{item.name}</Text>
+                        <Image style={{width: 200, height:200}} source={{uri:item.image}}/>
+                        <Text>{item.id} - {item.name}</Text>
                     </View>
                 )
             }}
