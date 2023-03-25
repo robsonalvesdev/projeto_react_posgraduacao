@@ -16,7 +16,7 @@ export default function HomeListScreen({navigation})
 
     const onCardPress = (item) => {
         navigation.push('Detail', {
-            id:item.id
+            dados:item
         })
     }
 

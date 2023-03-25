@@ -1,12 +1,25 @@
-import { View, Text } from "react-native"
+import { useState, useEffect } from "react"
+import { View, Text, Image } from "react-native"
+
+import { getDetailPokemon } from "./network/ApiRequest"
+import { mapperDetail } from "./utils/Mapper"
 
 export default function DetailScreen({route}){
     
-    console.log(route.params.id)
+    const [data,setData] = useState({name: 'Teste'})
+
+    useEffect(() => {
+        getDetailPokemon(apiData => {
+            setData(mapperDetail(apiData))
+        }, route.params.dados.id)
+    }) 
     
     return(
         <View>
-            <Text>Tela de detalhes</Text>
+            <Text>Nome: {data.name}</Text>
+            <Text>Habilidades: {data.habilidades}</Text>
+            <Image style={{width: 200, height:200}} source={{uri:data.image}}/>
+
         </View>
     )
 }

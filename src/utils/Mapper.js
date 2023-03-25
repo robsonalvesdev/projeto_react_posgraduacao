@@ -1,4 +1,5 @@
 export const mapperPokemon = mapper
+export const mapperDetail = mapperDetailPrivate
 
 function mapper(pokemons){
     const listPokemons=[]
@@ -15,6 +16,22 @@ function mapper(pokemons){
     });
 
     return listPokemons
+}
+
+function mapperDetailPrivate(pokemon){
+
+    const listHabilidades=[]
+    pokemon.abilities.forEach(element => {
+        listHabilidades.push(element.ability.name)
+    })
+
+    const poke = {
+        name: pokemon.name,
+        habilidades: listHabilidades,
+        image: getImage(pokemon.id),
+    }
+
+    return poke
 }
 
 function getId(url){
