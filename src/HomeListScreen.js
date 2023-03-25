@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react"
-import { StyleSheet, View, Text, FlatList, Image } from "react-native"
+import { StyleSheet, View, Text, FlatList, Image, TouchableHighlight } from "react-native"
 
 import { getPokemons } from "./network/ApiRequest"
 import { mapperPokemon } from "./utils/Mapper"
 
-export default function HomeListScreen()
+export default function HomeListScreen({navigation})
 {
     const [data,setData] = useState([])
 
@@ -14,6 +14,12 @@ export default function HomeListScreen()
         })
     })    
 
+    const onCardPress = (item) => {
+        navigation.push('Detail', {
+            id:item.id
+        })
+    }
+
     return (
         <FlatList
             style={styles.container}
@@ -21,10 +27,15 @@ export default function HomeListScreen()
             keyExtractor={item => item.id}
             renderItem={({item}) => {
                 return (
-                    <View style={styles.item}>
-                        <Image style={{width: 200, height:200}} source={{uri:item.image}}/>
-                        <Text>{item.id} - {item.name}</Text>
-                    </View>
+                    <TouchableHighlight
+                        onPress={() => onCardPress(item)}
+                    >
+                        <View style={styles.item}>
+                            <Image style={{width: 200, height:200}} source={{uri:item.image}}/>
+                            <Text>{item.id} - {item.name}</Text>
+                        </View>
+                    </TouchableHighlight>
+                    
                 )
             }}
         />
